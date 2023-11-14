@@ -3,39 +3,58 @@ import { Component } from "react";
 import Axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
 
 interface IProps {
+  employeeId: number;
   handleCancel: any;
 }
 
-class Write extends Component<IProps> {
+class Edit extends Component<IProps> {
   constructor(props: any) {
     super(props);
     this.state = {
       name: "",
       tel: "",
-      isRendered: false,
+      mail: "",
     };
   }
 
   state = {
     name: "",
     tel: "",
-    isRendered: false,
+    mail: "",
   };
 
-  write = () => {
-    Axios.post("/insert", {
+  update = () => {
+    Axios.post("/update", {
       name: this.state.name,
       tel: this.state.tel,
+      id: this.props.employeeId,
     })
       .then((res) => {
         this.setState({
           name: "",
           tel: "",
+          mail: "",
         });
         this.props.handleCancel();
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  detail = () => {
+    Axios.post("/detail", {
+      id: this.props.employeeId,
+    })
+      .then((res) => {
+        if (res.data.length > 0) {
+          this.setState({
+            name: res.data[0].BOARD_TITLE,
+            tel: res.data[0].BOARD_CONTENT,
+          });
+        }
       })
       .catch((e) => {
         console.error(e);
@@ -47,6 +66,12 @@ class Write extends Component<IProps> {
     this.setState({
       [e.target.name]: e.target.value,
     });
+  };
+
+  componentDidUpdate = (prevProps: any) => {
+    if (this.props.employeeId != prevProps.employeeId) {
+      this.detail();
+    }
   };
 
   render() {
@@ -74,17 +99,15 @@ class Write extends Component<IProps> {
             />
           </Form.Group>
         </Form>
-        <Button variant="info" onClick={this.write}>
+        <Button variant="info" onClick={this.update}>
           작성완료
         </Button>
-        <Link to="/">
-          <Button variant="secondary" onClick={this.props.handleCancel}>
-            취소
-          </Button>
-        </Link>
+        <Button variant="secondary" onClick={this.props.handleCancel}>
+          취소
+        </Button>
       </div>
     );
   }
 }
 
-export default Write;
+export default Edit;

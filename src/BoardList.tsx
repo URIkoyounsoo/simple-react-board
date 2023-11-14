@@ -3,17 +3,20 @@ import { Component } from "react";
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Axios from "axios";
+import { Link } from "react-router-dom";
 
 const Board = ({
-  id,
-  title,
-  registerId,
+  employeeId,
+  name,
+  tel,
+  mail,
   registerDate,
   props,
 }: {
-  id: number;
-  title: string;
-  registerId: string;
+  employeeId: number;
+  name: string;
+  tel: string;
+  mail: string;
   registerDate: string;
   props: any;
 }) => {
@@ -22,7 +25,7 @@ const Board = ({
       <td>
         <input
           type="checkbox"
-          value={id}
+          value={employeeId}
           onChange={(e) => {
             props.onCheckboxChange(
               e.currentTarget.checked,
@@ -31,9 +34,10 @@ const Board = ({
           }}
         ></input>
       </td>
-      <td>{id}</td>
-      <td>{title}</td>
-      <td>{registerId}</td>
+      <td>{employeeId}</td>
+      <td>{name}</td>
+      <td>{tel}</td>
+      <td>{mail}</td>
       <td>{registerDate}</td>
     </tr>
   );
@@ -75,13 +79,13 @@ class BoardList extends Component<IProps> {
       });
   };
 
-  onCheckboxChange = (checked: boolean, id: any) => {
+  onCheckboxChange = (checked: boolean, employeeId: any) => {
     const list: Array<string> = this.state.checkList.filter((v) => {
-      return v != id;
+      return v != employeeId;
     });
 
     if (checked) {
-      list.push(id);
+      list.push(employeeId);
     }
 
     this.setState({
@@ -106,12 +110,11 @@ class BoardList extends Component<IProps> {
     })
       .then((res) => {
         if (res) {
-          console.log(res.data);
           this.getList();
         }
       })
       .catch((e) => {
-        console.error("E: ", e);
+        console.error(e);
       });
   };
 
@@ -134,9 +137,10 @@ class BoardList extends Component<IProps> {
           <thead>
             <tr>
               <th>선택</th>
-              <th>번호</th>
-              <th>제목</th>
-              <th>작성자</th>
+              <th>사원번호</th>
+              <th>사원이름</th>
+              <th>전화번호</th>
+              <th>이메일</th>
               <th>작성일</th>
             </tr>
           </thead>
@@ -146,11 +150,12 @@ class BoardList extends Component<IProps> {
               boardList.map((v: any) => {
                 return (
                   <Board
-                    id={v.BOARD_ID}
-                    title={v.BOARD_TITLE}
-                    registerId={v.REGISTER_ID}
+                    employeeId={v.EMPLOYEE_ID}
+                    name={v.EMPLOYEE_NM}
+                    tel={v.TEL_NO}
+                    mail={v.MAIN_ADDRESS}
                     registerDate={v.REGISTER_DATE}
-                    key={v.BOARD_ID}
+                    key={v.EMPLOYEE_ID}
                     props={this}
                   />
                 );
@@ -158,15 +163,15 @@ class BoardList extends Component<IProps> {
             }
           </tbody>
         </Table>
-        <Button variant="info">글쓰기</Button>
-        <Button
-          variant="secondary"
-          onClick={() => {
-            this.props.handleModify(this.state.checkList);
-          }}
+        <Link to="/write">
+          <Button variant="info">글쓰기</Button>
+        </Link>
+        <Link
+          key={this.state.checkList[0]}
+          to={`/edit/${this.state.checkList[0]}`}
         >
-          수정하기
-        </Button>
+          <Button variant="secondary">수정하기</Button>
+        </Link>
         <Button variant="danger" onClick={this.handleDelete}>
           삭제하기
         </Button>

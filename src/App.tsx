@@ -4,6 +4,8 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BoardList from "BoardList";
 import Write from "Write";
+import Edit from "Edit";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 /**
  * App class
@@ -12,7 +14,7 @@ class App extends Component {
   state = {
     isModifyMode: false,
     isComplete: true,
-    boardId: 0,
+    employeeId: 0,
   };
 
   /**
@@ -30,7 +32,7 @@ class App extends Component {
     });
 
     this.setState({
-      boardId: checkList[0] || 0,
+      employeeId: checkList[0] || 0,
     });
   };
 
@@ -38,7 +40,7 @@ class App extends Component {
     this.setState({
       isModifyMode: false,
       isComplete: false,
-      boardId: 0,
+      employeeId: 0,
     });
   };
 
@@ -48,22 +50,38 @@ class App extends Component {
     });
   };
 
-  /**
-   * @return {Component} Component
-   */
   render() {
     return (
       <div className="App">
-        <BoardList
-          isComplete={this.state.isComplete}
-          handleModify={this.handleModify}
-          renderComplete={this.renderComplete}
-        ></BoardList>
-        <Write
-          isModifyMode={this.state.isModifyMode}
-          boardId={this.state.boardId}
-          handleCancel={this.handleCancel}
-        ></Write>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <BoardList
+                  isComplete={this.state.isComplete}
+                  handleModify={this.handleModify}
+                  renderComplete={this.renderComplete}
+                ></BoardList>
+              }
+            ></Route>
+
+            <Route
+              path="/write"
+              element={<Write handleCancel={this.handleCancel}></Write>}
+            ></Route>
+
+            <Route
+              path="/edit/:id"
+              element={
+                <Edit
+                  employeeId={this.state.employeeId}
+                  handleCancel={this.handleCancel}
+                />
+              }
+            ></Route>
+          </Routes>
+        </BrowserRouter>
       </div>
     );
   }
