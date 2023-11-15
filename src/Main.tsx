@@ -46,18 +46,8 @@ function Main(props: { isLogin: any }) {
               ></BoardList>
             }
           ></Route>
-
-          <Route
-            path="/write"
-            element={<Write handleCancel={handleCancel}></Write>}
-          ></Route>
-
-          <Route
-            path="/edit/:id"
-            element={
-              <Edit employeeId={employeeId} handleCancel={handleCancel} />
-            }
-          ></Route>
+          <Route path="/write" element={<Write />}></Route>
+          <Route path="/edit/:id" element={<Edit />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

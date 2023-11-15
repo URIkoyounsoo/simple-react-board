@@ -1,113 +1,107 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable eqeqeq */
-import { Component } from "react";
+import { useState, useEffect } from "react";
 import Axios from "axios";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-interface IProps {
-  employeeId: number;
-  handleCancel: any;
-}
+function Edit() {
+  const location = useLocation();
 
-class Edit extends Component<IProps> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      name: "",
-      tel: "",
-      mail: "",
-    };
-  }
+  const employeeId = location.state.id;
+  const [employeeName, setEmployeeName] = useState("");
+  const [employeeTel, setEmployeeTel] = useState("");
+  const [employeeMail, setEmployeeMail] = useState("");
 
-  state = {
-    name: "",
-    tel: "",
-    mail: "",
-  };
-
-  update = () => {
-    Axios.post("/update", {
-      name: this.state.name,
-      tel: this.state.tel,
-      id: this.props.employeeId,
-    })
-      .then((res) => {
-        this.setState({
-          name: "",
-          tel: "",
-          mail: "",
+  const getEmplpyee = () => {
+    try {
+      Axios.get("/edit", {
+        params: {
+          id: employeeId,
+        },
+      })
+        .then((res) => {
+          setEmployeeName(res.data[0].EMPLOYEE_NM);
+          setEmployeeTel(res.data[0].TEL_NO);
+          setEmployeeMail(res.data[0].MAIN_ADDRESS);
+        })
+        .catch((e) => {
+          console.error(e);
         });
-        this.props.handleCancel();
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  };
-
-  detail = () => {
-    Axios.post("/detail", {
-      id: this.props.employeeId,
-    })
-      .then((res) => {
-        if (res.data.length > 0) {
-          this.setState({
-            name: res.data[0].BOARD_TITLE,
-            tel: res.data[0].BOARD_CONTENT,
-          });
-        }
-      })
-      .catch((e) => {
-        console.error(e);
-      });
-  };
-
-  // eslint-disable-next-line
-  handleChange = (e: any) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  componentDidUpdate = (prevProps: any) => {
-    if (this.props.employeeId != prevProps.employeeId) {
-      this.detail();
+    } catch (e) {
+      console.log(e);
     }
   };
 
-  render() {
-    return (
-      <div>
-        <Form>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-            <Form.Label>제목</Form.Label>
-            <Form.Control
-              type="text"
-              name="name"
-              value={this.state.name}
-              onChange={this.handleChange}
-              placeholder="제목을 입력하세요"
-            />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-            <Form.Label>내용</Form.Label>
-            <Form.Control
-              as="textarea"
-              name="tel"
-              value={this.state.tel}
-              onChange={this.handleChange}
-              placeholder="내용을 입력하세요"
-            />
-          </Form.Group>
-        </Form>
-        <Button variant="info" onClick={this.update}>
-          작성완료
-        </Button>
-        <Button variant="secondary" onClick={this.props.handleCancel}>
-          취소
-        </Button>
-      </div>
-    );
-  }
+  useEffect(() => {
+    getEmplpyee();
+  }, [employeeId]);
+
+  const update = () => {
+    Axios.post("/update", {
+      id: employeeId,
+      name: employeeName,
+      tel: employeeTel,
+      mail: employeeMail,
+    })
+      .then((res) => {
+        console.log("res :", res);
+
+        setEmployeeName("");
+        setEmployeeTel("");
+        setEmployeeMail("");
+
+        document.location.href = "/";
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
+  return (
+    <div>
+      <Form>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          <Form.Label>이름</Form.Label>
+          <Form.Control
+            type="text"
+            name="name"
+            value={employeeName || ""}
+            onChange={(e) => setEmployeeName(e.target.value)}
+            placeholder="이름을 입력하세요"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+          <Form.Label>전화번호</Form.Label>
+          <Form.Control
+            as="textarea"
+            name="tel"
+            value={employeeTel || ""}
+            onChange={(e) => setEmployeeTel(e.target.value)}
+            placeholder="전화번호를 입력하세요"
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+          <Form.Label>메일</Form.Label>
+          <Form.Control
+            as="textarea"
+            name="mail"
+            value={employeeMail || ""}
+            onChange={(e) => setEmployeeMail(e.target.value)}
+            placeholder="내용을 입력하세요"
+          />
+        </Form.Group>
+      </Form>
+      <Button variant="info" onClick={update}>
+        작성완료
+      </Button>
+      <Link to="/">
+        <Button variant="secondary">취소</Button>
+      </Link>
+    </div>
+  );
 }
 
 export default Edit;

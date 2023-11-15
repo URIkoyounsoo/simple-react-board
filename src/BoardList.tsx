@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable eqeqeq */
 import { Component } from "react";
 import Table from "react-bootstrap/Table";
@@ -49,21 +50,20 @@ interface IProps {
   renderComplete: any;
 }
 
-/**
- * BoardList class
- */
 class BoardList extends Component<IProps> {
   constructor(props: any) {
     super(props);
     this.state = {
       boardList: [],
       checkList: [],
+      updateFlag: false,
     };
   }
 
   state = {
     boardList: [],
     checkList: [],
+    updateFlag: false,
   };
 
   getList = () => {
@@ -90,6 +90,7 @@ class BoardList extends Component<IProps> {
 
     this.setState({
       checkList: list,
+      updateFlag: true,
     });
   };
 
@@ -175,7 +176,8 @@ class BoardList extends Component<IProps> {
         </Link>
         <Link
           key={this.state.checkList[0]}
-          to={`/edit/${this.state.checkList[0]}`}
+          to={!this.state.updateFlag ? "" : `/edit/${this.state.checkList[0]}`}
+          state={{ id: this.state.checkList[0] }}
         >
           <Button variant="secondary">수정하기</Button>
         </Link>
