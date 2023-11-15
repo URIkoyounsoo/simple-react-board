@@ -128,6 +128,13 @@ class BoardList extends Component<IProps> {
     }
   }
 
+  onLogout = () => {
+    // sessionStorage 에 username 로 저장되어있는 아이템을 삭제한다.
+    sessionStorage.removeItem("username");
+    // App 으로 이동(새로고침)
+    document.location.href = "/";
+  };
+
   render() {
     const { boardList }: { boardList: any } = this.state;
 
@@ -175,6 +182,7 @@ class BoardList extends Component<IProps> {
         <Button variant="danger" onClick={this.handleDelete}>
           삭제하기
         </Button>
+        <Button onClick={this.onLogout}>로그아웃</Button>
       </div>
     );
   }

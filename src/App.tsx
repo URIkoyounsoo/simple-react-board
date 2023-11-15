@@ -1,90 +1,40 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable eqeqeq */
-import { Component } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import BoardList from "BoardList";
-import Write from "Write";
-import Edit from "Edit";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./Login";
+import Main from "./Main";
 
 /**
  * App class
  */
-class App extends Component {
-  state = {
-    isModifyMode: false,
-    isComplete: true,
-    employeeId: 0,
-  };
+function App() {
+  // 로그인 상태 관리
+  const [isLogin, setIsLogin] = useState(false);
 
-  /**
-   * @param {any} checkList
-   */
-  handleModify = (checkList: any) => {
-    if (checkList.length == 0) {
-      alert("수정할 게시글을 선택하세요.");
-    } else if (checkList.length > 1) {
-      alert("하나의 게시글만 선택하세요.");
+  useEffect(() => {
+    if (sessionStorage.getItem("username") === null) {
+      // sessionStorage 에 username 라는 key 값으로 저장된 값이 없다면
+      console.log("isLogin ?? :: ", isLogin);
+    } else {
+      // sessionStorage 에 username 라는 key 값으로 저장된 값이 있다면
+      // 로그인 상태 변경
+      setIsLogin(true);
+      console.log("isLogin ?? :: ", isLogin);
     }
+  });
 
-    this.setState({
-      isModifyMode: checkList.length == 1,
-    });
-
-    this.setState({
-      employeeId: checkList[0] || 0,
-    });
-  };
-
-  handleCancel = () => {
-    this.setState({
-      isModifyMode: false,
-      isComplete: false,
-      employeeId: 0,
-    });
-  };
-
-  renderComplete = () => {
-    this.setState({
-      isComplete: true,
-    });
-  };
-
-  render() {
-    return (
-      <div className="App">
-        <BrowserRouter>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <BoardList
-                  isComplete={this.state.isComplete}
-                  handleModify={this.handleModify}
-                  renderComplete={this.renderComplete}
-                ></BoardList>
-              }
-            ></Route>
-
-            <Route
-              path="/write"
-              element={<Write handleCancel={this.handleCancel}></Write>}
-            ></Route>
-
-            <Route
-              path="/edit/:id"
-              element={
-                <Edit
-                  employeeId={this.state.employeeId}
-                  handleCancel={this.handleCancel}
-                />
-              }
-            ></Route>
-          </Routes>
-        </BrowserRouter>
-      </div>
-    );
-  }
+  return (
+    <div>
+      {isLogin ? (
+        // Main 컴포넌트 호출 시 isLogin 이라는 props 값을 전달
+        <Main isLogin={isLogin} />
+      ) : (
+        <Login />
+      )}
+    </div>
+  );
 }
 
 export default App;
