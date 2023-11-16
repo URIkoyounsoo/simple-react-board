@@ -142,6 +142,8 @@ class BoardList extends Component<IProps> {
 
     return (
       <div>
+        <h3 style={{ marginBottom: "30px" }}>사원 일람</h3>
+        <p>----------------------------------------------------</p>
         <Table striped bordered hover>
           <thead className="boarder-list-title">
             <tr>
@@ -173,17 +175,17 @@ class BoardList extends Component<IProps> {
           </tbody>
         </Table>
         <Link to="/write">
-          <Button className="write">글쓰기</Button>
+          <Button className="write">추가</Button>
         </Link>
         <Link
           key={this.state.checkList[0]}
           to={!this.state.updateFlag ? "" : `/edit/${this.state.checkList[0]}`}
           state={{ id: this.state.checkList[0] }}
         >
-          <Button className="edit">수정하기</Button>
+          <Button className="edit">편집</Button>
         </Link>
         <Button className="delete" onClick={this.handleDelete}>
-          삭제하기
+          삭제
         </Button>
         <Button className="logout" onClick={this.onLogout}>
           로그아웃

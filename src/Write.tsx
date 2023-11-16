@@ -30,7 +30,7 @@ function Write() {
 
   return (
     <div>
-      <h3 style={{ marginBottom: "30px" }}>등록 화면</h3>
+      <h3 style={{ marginBottom: "30px" }}>사원 정보 입력</h3>
       <p>----------------------------------------------------</p>
       <Form>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
@@ -65,7 +65,7 @@ function Write() {
         </Form.Group>
       </Form>
       <Button onClick={write} style={{ marginRight: "15px" }}>
-        작성완료
+        저장
       </Button>
       <Link to="/">
         <Button>취소</Button>

@@ -63,7 +63,7 @@ function Edit() {
   return (
     <div>
       <Form>
-        <h3 style={{ marginBottom: "30px" }}>편집 화면</h3>
+        <h3 style={{ marginBottom: "30px" }}>사원 정보 수정</h3>
         <p>----------------------------------------------------</p>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
           <Form.Label style={{ fontWeight: "bold" }}>이름</Form.Label>
@@ -97,7 +97,7 @@ function Edit() {
         </Form.Group>
       </Form>
       <Button onClick={update} style={{ marginRight: "15px" }}>
-        작성완료
+        저장
       </Button>
       <Link to="/">
         <Button>취소</Button>
