@@ -63,8 +63,10 @@ function Edit() {
   return (
     <div>
       <Form>
+        <h3 style={{ marginBottom: "30px" }}>편집 화면</h3>
+        <p>----------------------------------------------------</p>
         <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-          <Form.Label>이름</Form.Label>
+          <Form.Label style={{ fontWeight: "bold" }}>이름</Form.Label>
           <Form.Control
             type="text"
             name="name"
@@ -74,7 +76,7 @@ function Edit() {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Label>전화번호</Form.Label>
+          <Form.Label style={{ fontWeight: "bold" }}>전화번호</Form.Label>
           <Form.Control
             as="textarea"
             name="tel"
@@ -84,7 +86,7 @@ function Edit() {
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-          <Form.Label>메일</Form.Label>
+          <Form.Label style={{ fontWeight: "bold" }}>메일</Form.Label>
           <Form.Control
             as="textarea"
             name="mail"
@@ -94,11 +96,11 @@ function Edit() {
           />
         </Form.Group>
       </Form>
-      <Button variant="info" onClick={update}>
+      <Button onClick={update} style={{ marginRight: "15px" }}>
         작성완료
       </Button>
       <Link to="/">
-        <Button variant="secondary">취소</Button>
+        <Button>취소</Button>
       </Link>
     </div>
   );

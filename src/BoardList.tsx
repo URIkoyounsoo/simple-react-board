@@ -5,6 +5,7 @@ import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
 import Axios from "axios";
 import { Link } from "react-router-dom";
+import "./BoardList.css";
 
 const Board = ({
   employeeId,
@@ -22,8 +23,8 @@ const Board = ({
   props: any;
 }) => {
   return (
-    <tr>
-      <td>
+    <tr style={{ backgroundColor: "rgb(255, 255, 255)" }}>
+      <td style={{ width: "5%" }}>
         <input
           type="checkbox"
           value={employeeId}
@@ -35,11 +36,11 @@ const Board = ({
           }}
         ></input>
       </td>
-      <td>{employeeId}</td>
-      <td>{name}</td>
-      <td>{tel}</td>
-      <td>{mail}</td>
-      <td>{registerDate}</td>
+      <td style={{ width: "10%" }}>{employeeId}</td>
+      <td style={{ width: "20%" }}>{name}</td>
+      <td style={{ width: "20%" }}>{tel}</td>
+      <td style={{ width: "20%" }}>{mail}</td>
+      <td style={{ width: "10%" }}>{registerDate}</td>
     </tr>
   );
 };
@@ -142,7 +143,7 @@ class BoardList extends Component<IProps> {
     return (
       <div>
         <Table striped bordered hover>
-          <thead>
+          <thead className="boarder-list-title">
             <tr>
               <th>선택</th>
               <th>사원번호</th>
@@ -172,19 +173,21 @@ class BoardList extends Component<IProps> {
           </tbody>
         </Table>
         <Link to="/write">
-          <Button variant="info">글쓰기</Button>
+          <Button className="write">글쓰기</Button>
         </Link>
         <Link
           key={this.state.checkList[0]}
           to={!this.state.updateFlag ? "" : `/edit/${this.state.checkList[0]}`}
           state={{ id: this.state.checkList[0] }}
         >
-          <Button variant="secondary">수정하기</Button>
+          <Button className="edit">수정하기</Button>
         </Link>
-        <Button variant="danger" onClick={this.handleDelete}>
+        <Button className="delete" onClick={this.handleDelete}>
           삭제하기
         </Button>
-        <Button onClick={this.onLogout}>로그아웃</Button>
+        <Button className="logout" onClick={this.onLogout}>
+          로그아웃
+        </Button>
       </div>
     );
   }

@@ -1,0 +1,69 @@
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+.boarder-list-title {
+  background-color: rgb(133, 194, 159);
+  padding: 10px;
+  margin: 0 auto;
+}
+
+.boarder-list {
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+  margin: 0 auto;
+}
+
+.write {
+  margin-top: 15px;
+  margin-right: 15px;
+  border: none;
+  width: 10%;
+  background-color: rgb(155, 180, 47);
+  color: white;
+  font-weight: 500;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.edit {
+  margin-top: 15px;
+  margin-right: 15px;
+  border: none;
+  width: 10%;
+  background-color: rgb(155, 180, 47);
+  color: white;
+  font-weight: 500;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.delete {
+  margin-top: 15px;
+  margin-right: 15px;
+  border: none;
+  width: 10%;
+  background-color: rgb(155, 180, 47);
+  color: white;
+  font-weight: 500;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.logout {
+  margin-top: 15px;
+  margin-right: 15px;
+  border: none;
+  width: 10%;
+  background-color: rgb(155, 180, 47);
+  color: white;
+  font-weight: 500;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  background-color: rgb(77, 80, 77);
+}
